@@ -4,7 +4,7 @@ import (
 	"freeDayManager/role"
 )
 
-func RegisterToUser(register UserRegister) User {
+func RegisterToUser(register UserRequest) User {
 	return User{Username: register.Username, FullName: register.FullName, Password: register.Password, Email: register.Email}
 }
 

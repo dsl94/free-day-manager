@@ -1,8 +1,8 @@
 package user
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -16,11 +16,10 @@ func ProvideUserController(u UserService) UserController {
 }
 
 func (u *UserController) Create(c *gin.Context) {
-	var userRegister UserRegister
-	err := c.BindJSON(&userRegister)
+	var userRegister UserRequest
+	err := c.ShouldBind(&userRegister)
 	if err != nil {
-		c.Status(http.StatusBadRequest)
-		log.Fatalln(err)
+		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err)})
 		return
 	}
 

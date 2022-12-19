@@ -38,6 +38,24 @@ func (u *UserService) Create(user User, roleName string) User {
 	return user
 }
 
+func (u *UserService) Update(id uint, dto UserRequest) UserDto {
+	existing := u.UserRepository.FindById(id)
+	dbRole := u.RoleRepository.FindByRole(dto.Role)
+
+	existing.Roles = []role.Role{dbRole}
+	existing.FullName = dto.FullName
+	existing.Email = dto.Email
+	existing.Username = dto.Username
+
+	//if dto.Password  {
+	//
+	//}
+
+	u.UserRepository.Save(existing)
+
+	return UserToDto(existing)
+}
+
 func (u *UserService) Delete(user User) {
 	u.UserRepository.Delete(user)
 }
