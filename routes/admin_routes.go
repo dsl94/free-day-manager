@@ -13,5 +13,7 @@ func AdminRoutes(router *gin.Engine, userController *user.UserController, authMi
 	admin.Use(authMiddleware.MiddlewareFunc(), authorizer.AuthorizeRequestForRoles([]string{"ROLE_ADMIN"}))
 	{
 		admin.GET("/users", userController.FindAll)
+		admin.GET("/users/:id", userController.FindOne)
+		admin.POST("/users", userController.Create)
 	}
 }

@@ -12,14 +12,14 @@ func ProvideUserRepository(DB *gorm.DB) UserRepository {
 
 func (u *UserRepository) FindAll() []User {
 	var users []User
-	u.DB.Find(&users)
+	u.DB.Preload("Roles").Find(&users)
 
 	return users
 }
 
 func (u *UserRepository) FindById(id uint) User {
 	var user User
-	u.DB.Find(&user, id)
+	u.DB.Preload("Roles").Find(&user, id)
 
 	return user
 }

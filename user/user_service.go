@@ -22,14 +22,16 @@ func (u *UserService) FindAll() []UserDto {
 	return dtos
 }
 
-func (u *UserService) FindById(id uint) User {
-	return u.UserRepository.FindById(id)
+func (u *UserService) FindById(id uint) UserDto {
+	dbUser := u.UserRepository.FindById(id)
+
+	return UserToDto(dbUser)
 }
 
-func (u *UserService) Register(user User) User {
-	adminRole := u.RoleRepository.FindByRole("ROLE_ADMIN")
+func (u *UserService) Create(user User, roleName string) User {
+	dbRole := u.RoleRepository.FindByRole(roleName)
 
-	user.Roles = []role.Role{adminRole}
+	user.Roles = []role.Role{dbRole}
 
 	u.UserRepository.Save(user)
 

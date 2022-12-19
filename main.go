@@ -31,7 +31,7 @@ func main() {
 		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
 	})
 
-	routes.AuthRoutes(router, &roleController, &userController)
+	routes.AuthRoutes(router, authMiddleware)
 	routes.AdminRoutes(router, &userController, authMiddleware)
 
 	err := router.Run()

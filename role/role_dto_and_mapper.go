@@ -15,3 +15,12 @@ func ToDto(role Role) RoleDto {
 
 	return dto
 }
+
+func ToArray(roles []Role) []string {
+	var res = make([]string, len(roles))
+	for i, role := range roles {
+		res[i] = role.RoleName
+	}
+
+	return res
+}

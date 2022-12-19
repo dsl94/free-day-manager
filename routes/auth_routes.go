@@ -1,12 +1,10 @@
 package routes
 
 import (
-	"freeDayManager/role"
-	"freeDayManager/user"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
 
-func AuthRoutes(router *gin.Engine, roleController *role.RoleController, userController *user.UserController) {
-	router.POST("/api/roles", roleController.Create)
-	router.POST("/api/register", userController.Register)
+func AuthRoutes(router *gin.Engine, authMiddleware *jwt.GinJWTMiddleware) {
+	router.GET("/refresh_token", authMiddleware.RefreshHandler)
 }

@@ -10,10 +10,13 @@ type UserRegister struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	FullName string `json:"full_name"`
+	Role     string `json:"role"`
 }
 
 type UserDto struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	FullName string `json:"full_name"`
+	Id       uint     `json:"id"`
+	Username string   `json:"username"`
+	Email    string   `json:"email"`
+	FullName string   `json:"full_name"`
+	Roles    []string `json:"roles"`
 }
