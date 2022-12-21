@@ -6,11 +6,11 @@ type UserLogin struct {
 }
 
 type UserRequest struct {
-	Username string `json:"username" binding:"required_without=End,omitempty,lt|ltfield=End"`
+	Username string `json:"username" binding:"required"`
 	Password string `json:"password"`
-	Email    string `json:"email" binding:"required_without=End,omitempty,lt|ltfield=End"`
-	FullName string `json:"full_name" binding:"required_without=End,omitempty,lt|ltfield=End"`
-	Role     string `json:"role" binding:"required_without=End,omitempty,lt|ltfield=End"`
+	Email    string `json:"email" binding:"required"`
+	FullName string `json:"full_name" binding:"required"`
+	Role     string `json:"role" binding:"required"`
 }
 
 type UserDto struct {

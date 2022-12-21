@@ -1,6 +1,9 @@
 package user
 
-import "freeDayManager/role"
+import (
+	"freeDayManager/role"
+	"log"
+)
 
 type UserService struct {
 	UserRepository UserRepository
@@ -47,9 +50,10 @@ func (u *UserService) Update(id uint, dto UserRequest) UserDto {
 	existing.Email = dto.Email
 	existing.Username = dto.Username
 
-	//if dto.Password  {
-	//
-	//}
+	if dto.Password != "" {
+		log.Println("Changing pass")
+		existing.HashPassword(dto.Password)
+	}
 
 	u.UserRepository.Save(existing)
 

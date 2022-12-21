@@ -47,3 +47,21 @@ func (u *UserController) FindOne(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"user": user})
 }
+
+func (u *UserController) Update(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 32)
+	if err != nil {
+		panic("Id not valid format, it must be int")
+	}
+	var userRegister UserRequest
+	err2 := c.ShouldBind(&userRegister)
+	if err2 != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err2)})
+		return
+	}
+
+	u.UserService.Update(uint(id), userRegister)
+
+	c.Status(http.StatusOK)
+}
