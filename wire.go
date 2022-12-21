@@ -1,22 +1,30 @@
-//+build wireinject
+//go:build wireinject
+// +build wireinject
 
 package main
 
 import (
-	"find-table/role"
-	"find-table/user"
+	"freeDayManager/controller"
+	"freeDayManager/database"
+	"freeDayManager/service"
 	"github.com/google/wire"
 	"github.com/jinzhu/gorm"
 )
 
-func InitRoleController(db *gorm.DB) role.RoleController {
-	wire.Build(role.ProvideRoleRepository, role.ProvideRoleService, role.ProvideRoleController)
+func InitRoleController(db *gorm.DB) controller.RoleController {
+	wire.Build(database.ProvideRoleRepository, service.ProvideRoleService, controller.ProvideRoleController)
 
-	return role.RoleController{}
+	return controller.RoleController{}
 }
 
-func InitUserController(db *gorm.DB, repository role.RoleRepository) user.UserController {
-	wire.Build(user.ProvideUserRepository, user.ProvideUserService, user.ProvideUserController)
+func InitUserController(db *gorm.DB, repository database.RoleRepository) controller.UserController {
+	wire.Build(database.ProvideUserRepository, service.ProvideUserService, controller.ProvideUserController)
 
-	return user.UserController{}
+	return controller.UserController{}
+}
+
+func InitFreeDayController(db *gorm.DB) controller.FreeDayController {
+	wire.Build(database.ProvideFreeDayRepository, service.ProvideFreeDayService, controller.ProvideFreeDayController)
+
+	return controller.FreeDayController{}
 }

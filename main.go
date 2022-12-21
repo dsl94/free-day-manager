@@ -18,6 +18,7 @@ func main() {
 
 	roleController := InitRoleController(db)
 	userController := InitUserController(db, roleController.RoleService.RoleRepository)
+	_ = InitFreeDayController(db)
 
 	router := gin.Default()
 	router.Use(cors.Default()) // Allowed origins *
