@@ -1,11 +1,10 @@
 package database
 
 import (
-	"freeDayManager/role"
-	"freeDayManager/user"
+	"freeDayManager/entity"
 	"github.com/jinzhu/gorm"
 )
 
 func Migrate(db *gorm.DB) {
-	db.AutoMigrate(&role.Role{}, &user.User{})
+	db.AutoMigrate(&entity.Role{}, &entity.User{}, &entity.FreeDay{})
 }

@@ -1,14 +1,15 @@
 package security
 
 import (
-	"freeDayManager/role"
-	"freeDayManager/user"
+	"freeDayManager/dto"
+	"freeDayManager/entity"
+	"freeDayManager/service"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"time"
 )
 
-func CreateAuthMiddleware(userService *user.UserService) *jwt.GinJWTMiddleware {
+func CreateAuthMiddleware(userService *service.UserService) *jwt.GinJWTMiddleware {
 	var identityKey = "username"
 	var roles = "roles"
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
@@ -18,7 +19,7 @@ func CreateAuthMiddleware(userService *user.UserService) *jwt.GinJWTMiddleware {
 		MaxRefresh:  time.Hour,
 		IdentityKey: identityKey,
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			if v, ok := data.(*user.User); ok {
+			if v, ok := data.(*entity.User); ok {
 				return jwt.MapClaims{
 					identityKey: v.Username,
 					roles:       extractRolesAsString(v.Roles),
@@ -28,12 +29,12 @@ func CreateAuthMiddleware(userService *user.UserService) *jwt.GinJWTMiddleware {
 		},
 		IdentityHandler: func(c *gin.Context) interface{} {
 			claims := jwt.ExtractClaims(c)
-			return &user.User{
+			return &entity.User{
 				Username: claims[identityKey].(string),
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			var loginVals user.UserLogin
+			var loginVals dto.UserLogin
 			if err := c.ShouldBind(&loginVals); err != nil {
 				return "", jwt.ErrMissingLoginValues
 			}
@@ -76,7 +77,7 @@ func CreateAuthMiddleware(userService *user.UserService) *jwt.GinJWTMiddleware {
 	return authMiddleware
 }
 
-func extractRolesAsString(roles []role.Role) []string {
+func extractRolesAsString(roles []entity.Role) []string {
 	var stringRoles = make([]string, len(roles))
 	for i, item := range roles {
 		stringRoles[i] = item.RoleName

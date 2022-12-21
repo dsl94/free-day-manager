@@ -1,29 +1,31 @@
-package user
+package controller
 
 import (
 	"fmt"
+	"freeDayManager/dto"
+	"freeDayManager/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
 type UserController struct {
-	UserService UserService
+	UserService service.UserService
 }
 
-func ProvideUserController(u UserService) UserController {
+func ProvideUserController(u service.UserService) UserController {
 	return UserController{UserService: u}
 }
 
 func (u *UserController) Create(c *gin.Context) {
-	var userRegister UserRequest
+	var userRegister dto.UserRequest
 	err := c.ShouldBind(&userRegister)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err)})
 		return
 	}
 
-	user := RegisterToUser(userRegister)
+	user := dto.RegisterToUser(userRegister)
 	user.HashPassword(userRegister.Password)
 
 	u.UserService.Create(user, userRegister.Role)
@@ -58,7 +60,7 @@ func (u *UserController) Update(c *gin.Context) {
 	if err != nil {
 		panic("Id not valid format, it must be int")
 	}
-	var userRegister UserRequest
+	var userRegister dto.UserRequest
 	err2 := c.ShouldBind(&userRegister)
 	if err2 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err2)})

@@ -1,8 +1,7 @@
-package user
+package entity
 
 import (
 	"errors"
-	"freeDayManager/role"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -13,7 +12,8 @@ type User struct {
 	FullName string
 	Email    string
 	Password string
-	Roles    []role.Role `gorm:"many2many:user_role;"`
+	Roles    []Role `gorm:"many2many:user_role;"`
+	FreeDays []FreeDay
 }
 
 func (user *User) HashPassword(password string) error {

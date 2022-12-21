@@ -1,4 +1,4 @@
-package user
+package dto
 
 type UserLogin struct {
 	Username string
