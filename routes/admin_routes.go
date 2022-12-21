@@ -16,5 +16,6 @@ func AdminRoutes(router *gin.Engine, userController *user.UserController, authMi
 		admin.GET("/users/:id", userController.FindOne)
 		admin.PUT("/users/:id", userController.Update)
 		admin.POST("/users", userController.Create)
+		admin.DELETE("/users/:id", userController.Delete)
 	}
 }

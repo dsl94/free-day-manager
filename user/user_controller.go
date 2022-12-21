@@ -45,7 +45,11 @@ func (u *UserController) FindOne(c *gin.Context) {
 	}
 	user := u.UserService.FindById(uint(id))
 
-	c.JSON(http.StatusOK, gin.H{"user": user})
+	if user.Id > 0 {
+		c.JSON(http.StatusOK, gin.H{"user": user})
+	} else {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+	}
 }
 
 func (u *UserController) Update(c *gin.Context) {
@@ -64,4 +68,19 @@ func (u *UserController) Update(c *gin.Context) {
 	u.UserService.Update(uint(id), userRegister)
 
 	c.Status(http.StatusOK)
+}
+
+func (u *UserController) Delete(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 32)
+	if err != nil {
+		panic("Id not valid format, it must be int")
+	}
+	res := u.UserService.Delete(uint(id))
+
+	if res {
+		c.Status(http.StatusOK)
+	} else {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+	}
 }

@@ -1,6 +1,9 @@
 package user
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	"log"
+)
 
 type UserRepository struct {
 	DB *gorm.DB
@@ -20,7 +23,7 @@ func (u *UserRepository) FindAll() []User {
 func (u *UserRepository) FindById(id uint) User {
 	var user User
 	u.DB.Preload("Roles").Find(&user, id)
-
+	log.Println(user)
 	return user
 }
 

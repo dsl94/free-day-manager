@@ -27,7 +27,6 @@ func (u *UserService) FindAll() []UserDto {
 
 func (u *UserService) FindById(id uint) UserDto {
 	dbUser := u.UserRepository.FindById(id)
-
 	return UserToDto(dbUser)
 }
 
@@ -60,8 +59,14 @@ func (u *UserService) Update(id uint, dto UserRequest) UserDto {
 	return UserToDto(existing)
 }
 
-func (u *UserService) Delete(user User) {
-	u.UserRepository.Delete(user)
+func (u *UserService) Delete(id uint) bool {
+	existing := u.UserRepository.FindById(id)
+	if existing.ID > 0 {
+		u.UserRepository.Delete(existing)
+		return true
+	} else {
+		return false
+	}
 }
 
 func (u *UserService) FindByUsername(username string) User {
