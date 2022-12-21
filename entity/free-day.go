@@ -11,5 +11,6 @@ type FreeDay struct {
 	StartDate time.Time
 	EndDate   time.Time
 	Status    string
-	User      User `gorm:"foreignKey:UserId"`
+	UserID    int
+	User      User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
