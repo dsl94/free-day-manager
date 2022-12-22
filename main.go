@@ -18,7 +18,7 @@ func main() {
 
 	roleController := InitRoleController(db)
 	userController := InitUserController(db, roleController.RoleService.RoleRepository)
-	_ = InitFreeDayController(db)
+	freeDayController := InitFreeDayController(db, userController.UserService.UserRepository)
 
 	router := gin.Default()
 	router.Use(cors.Default()) // Allowed origins *
@@ -33,7 +33,7 @@ func main() {
 	})
 
 	routes.AuthRoutes(router, authMiddleware)
-	routes.AdminRoutes(router, &userController, authMiddleware)
+	routes.AppRoutes(router, &userController, &freeDayController, authMiddleware)
 
 	err := router.Run()
 	if err != nil {

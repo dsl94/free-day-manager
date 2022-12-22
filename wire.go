@@ -23,7 +23,7 @@ func InitUserController(db *gorm.DB, repository database.RoleRepository) control
 	return controller.UserController{}
 }
 
-func InitFreeDayController(db *gorm.DB) controller.FreeDayController {
+func InitFreeDayController(db *gorm.DB, repository database.UserRepository) controller.FreeDayController {
 	wire.Build(database.ProvideFreeDayRepository, service.ProvideFreeDayService, controller.ProvideFreeDayController)
 
 	return controller.FreeDayController{}

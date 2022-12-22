@@ -23,6 +23,12 @@ func AuthorizeRequestForRoles(roles []string) gin.HandlerFunc {
 	}
 }
 
+func ExtractUsername(c *gin.Context) string {
+	claims := jwt.ExtractClaims(c)
+	username := claims["username"].(string)
+	return username
+}
+
 func contains(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {

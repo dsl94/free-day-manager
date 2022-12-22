@@ -33,9 +33,9 @@ func InitUserController(db *gorm.DB, repository database.RoleRepository) control
 	return userController
 }
 
-func InitFreeDayController(db *gorm.DB) controller.FreeDayController {
+func InitFreeDayController(db *gorm.DB, repository database.UserRepository) controller.FreeDayController {
 	freeDayRepository := database.ProvideFreeDayRepository(db)
-	freeDayService := service.ProvideFreeDayService(freeDayRepository)
+	freeDayService := service.ProvideFreeDayService(freeDayRepository, repository)
 	freeDayController := controller.ProvideFreeDayController(freeDayService)
 	return freeDayController
 }
