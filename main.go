@@ -25,6 +25,7 @@ func main() {
 
 	var authMiddleware = security.CreateAuthMiddleware(&userController.UserService)
 	router.POST("/api/login", authMiddleware.LoginHandler)
+	router.POST("/api/register", userController.Create)
 
 	router.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)

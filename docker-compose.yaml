@@ -1,0 +1,33 @@
+version: '3.8'
+networks:
+  default:
+    external:
+      name: nwp
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+      POSTGRES_DB: gin-example
+    volumes:
+      - postgres-db:/data/postgres
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+  free-days:
+    image: free-days
+    container_name: free-days
+    hostname: free-days
+    depends_on:
+      - postgres
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+volumes:
+  postgres-db:
+    driver: local
