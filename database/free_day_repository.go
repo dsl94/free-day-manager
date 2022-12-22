@@ -32,3 +32,9 @@ func (f *FreeDayRepository) FindAll() []entity.FreeDay {
 
 	return freeDays
 }
+
+func (f *FreeDayRepository) FindById(id uint) entity.FreeDay {
+	var freeDay entity.FreeDay
+	f.DB.Preload("User").Find(&freeDay, id)
+	return freeDay
+}

@@ -18,6 +18,8 @@ func AppRoutes(router *gin.Engine, userController *controller.UserController, fr
 		app.POST("/admin/users", userController.Create)
 		app.DELETE("/admin/users/:id", userController.Delete)
 		app.GET("/admin/free-days", freeDayController.FindAll)
+		app.PUT("/admin/free-days/approve/:id", freeDayController.Approve)
+		app.PUT("/admin/free-days/deny/:id", freeDayController.Deny)
 	}
 	app.Use(authMiddleware.MiddlewareFunc(), authorizer.AuthorizeRequestForRoles([]string{"ROLE_ADMIN", "ROLE_USER"}))
 	{

@@ -50,3 +50,33 @@ func (f *FreeDayService) FindForUser(username string) []dto.FreeDayResponse {
 
 	return dtos
 }
+
+func (f *FreeDayService) Approve(id uint) (dto.FreeDayResponse, error) {
+	existing := f.FreeDayRepository.FindById(id)
+	if existing.ID == 0 {
+		return dto.FreeDayResponse{}, errors.New("Free day request not found")
+	}
+
+	if existing.Status == entity.FREE_DAY_REQUESTED {
+		existing.Status = entity.FREE_DAY_APPROVED
+		existing = f.FreeDayRepository.Save(existing)
+		return dto.MapToFreeDayResponse(existing), nil
+	} else {
+		return dto.FreeDayResponse{}, errors.New("Can not approve request that is not in REQUESTED status")
+	}
+}
+
+func (f *FreeDayService) Deny(id uint) (dto.FreeDayResponse, error) {
+	existing := f.FreeDayRepository.FindById(id)
+	if existing.ID == 0 {
+		return dto.FreeDayResponse{}, errors.New("Free day request not found")
+	}
+
+	if existing.Status == entity.FREE_DAY_REQUESTED {
+		existing.Status = entity.FREE_DAY_DENIED
+		existing = f.FreeDayRepository.Save(existing)
+		return dto.MapToFreeDayResponse(existing), nil
+	} else {
+		return dto.FreeDayResponse{}, errors.New("Can not deny request that is not in REQUESTED status")
+	}
+}
